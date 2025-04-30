@@ -17,9 +17,18 @@ def extract_region_from_arn(arn):
 # グローバル変数としてクライアントを初期化（初期値）
 bedrock_client = None
 
-# モデルID
-MODEL_ID = os.environ.get("MODEL_ID", "us.amazon.nova-lite-v1:0")
+url = f"{MODEL_ID}/generate"  
+        # FastAPI呼び出し
+        response = urllib.request.Request(
+            url=url,
+            data=json.dumps(request_payload).encode('utf-8'),  # JSONデータをバイト列に変換
+            headers={'Content-Type': 'application/json'},
+            method='POST'
+        )
 
+# モデルID
+# MODEL_ID = os.environ.get("MODEL_ID", "us.amazon.nova-lite-v1:0")
+MODEL_ID = os.environ.get("MODEL_ID",  "https://4103-35-185-239-20.ngrok-free.app")
 def lambda_handler(event, context):
     try:
         # コンテキストから実行リージョンを取得し、クライアントを初期化
